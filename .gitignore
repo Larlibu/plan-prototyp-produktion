@@ -1,24 +1,30 @@
-# Compiled class file
-*.class
+# Build
+Plan Prototyp Produktion/target/
 
-# Log file
-*.log
+# IDE
+Plan Prototyp Produktion/.idea/
+Plan Prototyp Produktion/*.iml
+.idea/
+*.iml
 
-# BlueJ files
-*.ctxt
+# Claude Code
+Plan Prototyp Produktion/.claude/
+Plan Prototyp Produktion/.claude-code-gui/
+.claude/
+.claude-code-gui/
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# Laufzeit
+Plan Prototyp Produktion/data/
+Plan Prototyp Produktion/logs/
 
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
+# OS
+.DS_Store
+Thumbs.db
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+# Credentials – NIEMALS committen
+Plan Prototyp Produktion/src/main/resources/application-dev.yml
+Plan Prototyp Produktion/src/main/resources/application-prod.yml
+Plan Prototyp Produktion/.run/
+.run/
+.env
+neu 1.txt

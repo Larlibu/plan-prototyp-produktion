@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+    <div th:replace="~{layout/base :: layout(title='Adminbereich - Plan Prototyp Produktion', content=~{::main})}">
+        <main>
+            <section class="admin-dashboard">
+                <div class="container">
+                    <!-- Persönliche Begrüßung, wenn der Admin eingeloggt ist -->
+                    <div sec:authorize="isAuthenticated()" th:if="${username}">
+                        <h2 th:text="'Willkommen im Adminbereich, ' + ${username} + '!'">Willkommen im Adminbereich!</h2>
+                    </div>
+                    <h1>Adminbereich</h1>
+
+                    <div sec:authorize="hasRole('ADMIN')">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <span class="stat-number" th:text="${publishedBlogPosts}">0</span>
+                                <span class="stat-label">Veröffentlichte Artikel</span>
+                                <span class="stat-sub" th:text="'von ' + ${totalBlogPosts} + ' gesamt'">von 0 gesamt</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-number" th:text="${activeSubscribers}">0</span>
+                                <span class="stat-label">Aktive Abonnenten</span>
+                                <span class="stat-sub" th:text="'von ' + ${totalSubscribers} + ' gesamt'">von 0 gesamt</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-number" th:text="${totalProducts}">0</span>
+                                <span class="stat-label">Produkte im Shop</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-number" th:text="${totalUsers}">0</span>
+                                <span class="stat-label">Registrierte Nutzer</span>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-grid">
+                            <div class="dashboard-card">
+                                <h3>CMS Verwaltung</h3>
+                                <p>Blogartikel erstellen, bearbeiten und veröffentlichen.</p>
+                                <a href="/admin/blog" class="button primary">Zum CMS</a>
+                            </div>
+                            <div class="dashboard-card">
+                                <h3>Shop Verwaltung</h3>
+                                <p>Produkte hinzufügen, aktualisieren und Lagerbestände verwalten.</p>
+                                <a href="/admin/shop" class="button primary">Zum Shop Admin</a>
+                            </div>
+                            <div class="dashboard-card">
+                                <h3>Newsletter Verwaltung</h3>
+                                <p>Abonnenten verwalten und Newsletter versenden.</p>
+                                <a href="/admin/newsletter" class="button primary">Zum Newsletter Admin</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div sec:authorize="!hasRole('ADMIN')" class="admin-login-box">
+                        <div class="admin-login-card">
+                            <h2>Anmelden</h2>
+                            <p>Nur für Administratoren.</p>
+                            <form th:action="@{/login}" method="post">
+                                <div th:if="${param.error}" class="admin-login-error">
+                                    Benutzername oder Passwort falsch.
+                                </div>
+                                <div class="form-group">
+                                    <label for="username">Benutzername</label>
+                                    <input type="text" id="username" name="username" placeholder="Benutzername" required autofocus>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Passwort</label>
+                                    <input type="password" id="password" name="password" placeholder="Passwort" required>
+                                </div>
+                                <button type="submit" class="button primary full-width">Anmelden</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

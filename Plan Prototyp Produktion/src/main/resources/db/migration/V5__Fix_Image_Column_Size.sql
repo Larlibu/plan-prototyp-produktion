@@ -1,0 +1,5 @@
+-- V5__Fix_Image_Column_Size.sql
+-- Dieser Migrationsschritt ist nun redundant, da die 'image'-Spalten in V1__Initial_Schema.sql
+-- direkt als LONGTEXT definiert wurden, um Konsistenz mit den JPA-Entitäten zu gewährleisten.
+-- Der Inhalt wurde geleert, um Flyway-Probleme zu vermeiden, aber die Datei bleibt bestehen,
+-- damit Flyway die Migration als ausgeführt betrachtet.

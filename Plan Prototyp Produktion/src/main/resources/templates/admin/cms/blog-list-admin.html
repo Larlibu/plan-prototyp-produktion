@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>CMS Admin - Blog Posts</title>
+</head>
+<body>
+    <div th:replace="~{layout/base :: layout(~{::title}, ~{::main})}">
+        <main>
+            <section class="admin-content">
+                <div class="container">
+                    <h1>Blog Post Verwaltung</h1>
+                    <a href="/admin/blog/create" class="button primary">Neuen Blog Post erstellen</a>
+
+                    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+                    <div th:if="${blogPosts.isEmpty()}" class="empty-state">
+                        <p>Es sind noch keine Blogartikel vorhanden.</p>
+                    </div>
+                    <table th:unless="${blogPosts.isEmpty()}" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Titel</th>
+                                <th>Slug</th>
+                                <th>Veröffentlicht</th>
+                                <th>Erstellt am</th>
+                                <th>Aktionen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="post : ${blogPosts}">
+                                <td th:text="${post.title}"></td>
+                                <td th:text="${post.slug}"></td>
+                                <td>
+                                    <span th:if="${post.published}" class="status-published">Ja</span>
+                                    <span th:unless="${post.published}" class="status-unpublished">Nein</span>
+                                </td>
+                                <td th:text="${#temporals.format(post.createdAt, 'dd.MM.yyyy HH:mm')}"></td>
+                                <td class="actions">
+                                    <a th:href="@{/admin/blog/edit/{id}(id=${post.id})}" class="button secondary small">Bearbeiten</a>
+                                    <form th:action="@{/admin/blog/delete/{id}(id=${post.id})}" method="post" style="display:inline;">
+                                        <button type="submit" class="button danger small" onclick="return confirm('Sind Sie sicher, dass Sie diesen Blog Post löschen möchten?');">Löschen</button>
+                                    </form>
+                                    <form th:if="${!post.published}" th:action="@{/admin/blog/publish/{id}(id=${post.id})}" method="post" style="display:inline;">
+                                        <button type="submit" class="button success small">Veröffentlichen</button>
+                                    </form>
+                                    <form th:if="${post.published}" th:action="@{/admin/blog/unpublish/{id}(id=${post.id})}" method="post" style="display:inline;">
+                                        <button type="submit" class="button warning small">Entveröffentlichen</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

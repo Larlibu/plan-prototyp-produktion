@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop Admin - Produkte</title>
+</head>
+<body>
+    <div th:replace="~{layout/base :: layout(~{::title}, ~{::main})}">
+        <main>
+            <section class="admin-content">
+                <div class="container">
+                    <h1>Produktverwaltung</h1>
+                    <a href="/admin/shop/create" class="button primary">Neues Produkt erstellen</a>
+
+                    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+                    <div th:if="${products.isEmpty()}" class="empty-state">
+                        <p>Es sind noch keine Produkte vorhanden.</p>
+                    </div>
+                    <table th:unless="${products.isEmpty()}" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Preis</th>
+                                <th>Lagerbestand</th>
+                                <th>Aktionen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="product : ${products}">
+                                <td th:text="${product.name}"></td>
+                                <td th:text="${#numbers.formatCurrency(product.price)}"></td>
+                                <td th:text="${product.stock}"></td>
+                                <td class="actions">
+                                    <a th:href="@{/admin/shop/edit/{id}(id=${product.id})}" class="button secondary small">Bearbeiten</a>
+                                    <form th:action="@{/admin/shop/delete/{id}(id=${product.id})}" method="post" style="display:inline;">
+                                        <button type="submit" class="button danger small" onclick="return confirm('Sind Sie sicher, dass Sie dieses Produkt löschen möchten?');">Löschen</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

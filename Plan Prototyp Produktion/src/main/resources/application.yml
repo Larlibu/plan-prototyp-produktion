@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: plan-prototyp-produktion
+
+  thymeleaf:
+    cache: false
+    mode: HTML
+    encoding: UTF-8
+    prefix: classpath:/templates/
+    suffix: .html
+
+  datasource:
+    url: ${DB_URL:}
+    username: ${DB_USERNAME:}
+    password: ${DB_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: false
+    properties:
+      hibernate:
+        type:
+          preferred_uuid_jdbc_type: VARCHAR
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  servlet:
+    multipart:
+      max-file-size: 50MB # Erhöht, um größere Bild-Uploads zu ermöglichen
+      max-request-size: 55MB # Erhöht, um größere Bild-Uploads zu ermöglichen (inkl. Overhead)
+
+server:
+  port: 8080
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        secure: false
+        max-age: 3600
+
+logging:
+  config: classpath:logback-spring.xml
+
+app:
+  base-url: http://localhost:8080
+  upload:
+    max-width: 1200
+# Die Werte kommen aus der run configuration und sind als Umgebungsvariablen hinterlegt
+  mailerlite:
+    api-key: ${MAILERLITE_API_KEY:}
+    from-name: "Plan Prototyp Produktion"
+    from-email: ${MAILERLITE_FROM_EMAIL:}
+    group-id: ${MAILERLITE_GROUP_ID:}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Newsletter verfassen</title>
+</head>
+<body>
+    <div th:replace="~{layout/base :: layout(~{::title}, ~{::main})}">
+        <main>
+            <section class="admin-form">
+                <div class="container">
+                    <h1>Newsletter verfassen</h1>
+                    <p>
+                        Dieser Newsletter wird über MailerLite an alle
+                        <strong th:text="${activeCount}">0</strong> aktiven Abonnenten versendet.
+                    </p>
+
+                    <form th:action="@{/admin/newsletter/compose}" th:object="${newsletterSendDto}"
+                          method="post" class="form-card">
+
+                        <div class="form-group">
+                            <label for="subject">Betreff:</label>
+                            <input type="text" id="subject" th:field="*{subject}"
+                                   th:errorclass="is-invalid" placeholder="Betreff der E-Mail">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('subject')}"
+                                 th:errors="*{subject}"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="htmlContent">Inhalt (HTML):</label>
+                            <textarea id="htmlContent" th:field="*{htmlContent}"
+                                      th:errorclass="is-invalid" rows="16"
+                                      placeholder="&lt;h1&gt;Hallo!&lt;/h1&gt;&lt;p&gt;Ihr Newsletter-Inhalt hier...&lt;/p&gt;"></textarea>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('htmlContent')}"
+                                 th:errors="*{htmlContent}"></div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="button primary"
+                                    onclick="return confirm('Newsletter jetzt an alle aktiven Abonnenten versenden?')">
+                                Newsletter versenden
+                            </button>
+                            <a href="/admin/newsletter" class="button secondary">Abbrechen</a>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

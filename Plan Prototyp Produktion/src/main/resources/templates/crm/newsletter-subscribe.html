@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Newsletter - Plan Prototyp Produktion</title>
+</head>
+<body>
+    <div th:replace="~{layout/base :: layout(~{::title}, ~{::main})}">
+        <main>
+            <section class="blog-list">
+                <div class="container">
+                    <h1>Newsletter</h1>
+
+                    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+                    <!-- Eingeloggter Benutzer, bereits abonniert -->
+                    <div th:if="${isSubscribed}" class="form-card">
+                        <h2>Sie sind bereits angemeldet</h2>
+                        <p>Ihre E-Mail-Adresse <strong th:text="${userEmail}"></strong> ist für unseren Newsletter registriert.</p>
+                        <p style="color: #777; font-size: 0.875em; margin-top: 16px;">
+                            Um sich abzumelden, nutzen Sie bitte den Abmelde-Link in einer unserer Newsletter-E-Mails.
+                        </p>
+                    </div>
+
+                    <!-- Anmeldeformular -->
+                    <div th:unless="${isSubscribed}" class="form-card">
+                        <h2>Jetzt anmelden</h2>
+                        <p style="color: #999; margin-bottom: 24px;">
+                            Erhalten Sie exklusive Angebote, Neuigkeiten und Updates direkt in Ihr Postfach.
+                        </p>
+
+                        <form th:action="@{/newsletter/subscribe}" th:object="${newsletterSubscriberDto}" method="post">
+                            <div class="form-group">
+                                <label for="email">E-Mail-Adresse</label>
+                                <input type="email" id="email" th:field="*{email}"
+                                       th:value="${userEmail}"
+                                       placeholder="ihre@email.de"
+                                       th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'">
+                                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="field-error"></span>
+                            </div>
+                            <button type="submit" class="button primary">Anmelden</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop - Plan Prototyp Produktion</title>
+</head>
+<body>
+    <div th:replace="~{layout/base :: layout(~{::title}, ~{::main})}">
+        <main>
+            <section class="blog-list">
+                <div class="container">
+                    <h1>Unser Shop</h1>
+
+                    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+                    <div th:if="${products.isEmpty()}" class="empty-state">
+                        <p>Es sind noch keine Produkte verfügbar.</p>
+                    </div>
+
+                    <div class="product-grid">
+                        <div th:each="product : ${products}" class="product-card">
+                            <img th:if="${product.image}"
+                                 th:src="@{'data:image/jpeg;base64,' + ${product.image}}"
+                                 alt="Produktbild"
+                                 class="product-card-image">
+                            <div class="product-card-content">
+                                <h2 class="product-card-title">
+                                    <a th:href="@{/shop/{id}(id=${product.id})}" th:text="${product.name}">Produktname</a>
+                                </h2>
+                                <p class="product-card-price" th:text="${#numbers.formatDecimal(product.price, 1, 2)} + ' €'">0,00 €</p>
+                                <p class="product-card-stock"
+                                   th:classappend="${product.stock == 0} ? 'out-of-stock'"
+                                   th:text="${product.stock > 0} ? ('Auf Lager: ' + ${product.stock}) : 'Nicht vorrätig'">
+                                    Auf Lager
+                                </p>
+                                <a th:href="@{/shop/{id}(id=${product.id})}" class="button tertiary">Details ansehen</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

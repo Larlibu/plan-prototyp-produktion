@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${blogPost.title}"></title>
+</head>
+<body>
+    <div th:replace="~{layout/base :: layout(~{::title}, ~{::main})}">
+        <main>
+            <section class="blog-detail">
+                <div class="container">
+                    <h1 th:text="${blogPost.title}"></h1>
+                    <p class="blog-meta">Veröffentlicht am <span th:text="${#temporals.format(blogPost.createdAt, 'dd.MM.yyyy')}"></span></p>
+                    <img th:if="${blogPost.image}" th:src="@{'data:image/jpeg;base64,' + ${blogPost.image}}" alt="Blog Post Image" class="blog-detail-image">
+                    <div class="blog-content" th:utext="${blogPost.content}"></div>
+                    <a href="/blog" class="button secondary">Zurück zur Blogübersicht</a>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

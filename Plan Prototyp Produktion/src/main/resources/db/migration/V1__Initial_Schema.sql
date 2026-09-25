@@ -1,0 +1,60 @@
+-- V1__Initial_Schema.sql
+
+CREATE TABLE IF NOT EXISTS roles (
+    id VARCHAR(36) NOT NULL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS users (
+    id VARCHAR(36) NOT NULL PRIMARY KEY,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    enabled BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS user_roles (
+    user_id VARCHAR(36) NOT NULL,
+    role_id VARCHAR(36) NOT NULL,
+    PRIMARY KEY (user_id, role_id),
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS blog_posts (
+    id VARCHAR(36) NOT NULL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    slug VARCHAR(255) NOT NULL UNIQUE,
+    content LONGTEXT NOT NULL, -- Geändert von TEXT zu LONGTEXT
+    image LONGTEXT, -- Geändert von TEXT zu LONGTEXT
+    published BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS products (
+    id VARCHAR(36) NOT NULL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+    image LONGTEXT, -- Geändert von TEXT zu LONGTEXT
+    stock INTEGER NOT NULL DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+    id VARCHAR(36) NOT NULL PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    active BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_users_username ON users (username);
+CREATE INDEX idx_users_email ON users (email);
+CREATE INDEX idx_blog_posts_slug ON blog_posts (slug);
+CREATE INDEX idx_products_name ON products (name);
+CREATE INDEX idx_newsletter_subscribers_email ON newsletter_subscribers (email);

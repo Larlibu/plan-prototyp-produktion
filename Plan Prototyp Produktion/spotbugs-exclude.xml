@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <!--
+        This file can be used to exclude specific FindBugs warnings.
+        Example:
+        <Match>
+            <Class name="~.*\.generated\..*" />
+            <Bug pattern="UWF_UNWRITTEN_FIELD" />
+        </Match>
+    -->
+    <!-- Exclude generated code if necessary, or specific patterns that are false positives. -->
+    <!-- For now, no specific exclusions are defined. -->
+</FindBugsFilter>

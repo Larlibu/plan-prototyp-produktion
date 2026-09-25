@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${product.name} + ' - Shop'">Produkt</title>
+</head>
+<body>
+    <div th:replace="~{layout/base :: layout(~{::title}, ~{::main})}">
+        <main>
+            <section class="product-detail">
+                <div class="container">
+
+                    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+                    <div class="product-detail-grid">
+                        <div class="product-image-container">
+                            <img th:if="${product.image}"
+                                 th:src="@{'data:image/jpeg;base64,' + ${product.image}}"
+                                 th:alt="${product.name}"
+                                 class="product-image">
+                        </div>
+
+                        <div class="product-info-container">
+                            <h1 th:text="${product.name}">Produktname</h1>
+
+                            <p class="product-card-price" th:text="${#numbers.formatDecimal(product.price, 1, 2)} + ' €'">0,00 €</p>
+
+                            <p class="product-card-stock"
+                               th:classappend="${product.stock == 0} ? 'out-of-stock'"
+                               th:text="${product.stock > 0} ? ('Auf Lager: ' + ${product.stock} + ' Stück') : 'Nicht vorrätig'">
+                                Auf Lager
+                            </p>
+
+                            <p class="product-description" th:text="${product.description}">Produktbeschreibung</p>
+
+                            <div class="add-to-cart-form" th:if="${product.stock > 0}">
+                                <form th:action="@{/shop/cart/add}" method="post">
+                                    <input type="hidden" name="productId" th:value="${product.id}">
+                                    <div class="form-group">
+                                        <label for="quantity">Menge</label>
+                                        <input type="number" id="quantity" name="quantity"
+                                               value="1" min="1" th:max="${product.stock}"
+                                               style="width: 80px;">
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="submit" class="button primary">In den Warenkorb</button>
+                                        <a href="/shop" class="button tertiary">Zurück zum Shop</a>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div th:unless="${product.stock > 0}" class="form-actions">
+                                <a href="/shop" class="button tertiary">Zurück zum Shop</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

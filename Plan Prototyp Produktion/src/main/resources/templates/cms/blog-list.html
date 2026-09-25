@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog - Plan Prototyp Produktion</title>
+</head>
+<body>
+    <div th:replace="~{layout/base :: layout(~{::title}, ~{::main})}">
+        <main>
+            <section class="blog-list">
+                <div class="container">
+                    <div class="blog-list-header">
+                        <h1>Unsere Blogartikel</h1>
+                        <div class="feed-links">
+                            <a href="/feed/rss" class="feed-link" title="RSS-Feed abonnieren" target="_blank" rel="noopener">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <circle cx="6.18" cy="17.82" r="2.18"/>
+                                    <path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/>
+                                </svg>
+                                RSS
+                            </a>
+                            <a href="/feed/atom" class="feed-link feed-link--atom" title="Atom-Feed abonnieren" target="_blank" rel="noopener">Atom</a>
+                        </div>
+                    </div>
+                    <div th:if="${blogPosts.isEmpty()}" class="empty-state">
+                        <p>Es sind noch keine Blogartikel verfügbar.</p>
+                    </div>
+                    <div class="blog-grid">
+                        <div th:each="post : ${blogPosts}" class="blog-card">
+                            <img th:if="${post.image}" th:src="@{'data:image/jpeg;base64,' + ${post.image}}" alt="Blog Post Image" class="blog-card-image">
+                            <div class="blog-card-content">
+                                <h2 class="blog-card-title"><a th:href="@{/blog/{slug}(slug=${post.slug})}" th:text="${post.title}">Blog Post Title</a></h2>
+                                <p class="blog-card-date" th:text="${#temporals.format(post.createdAt, 'dd.MM.yyyy')}"></p>
+                                <p class="blog-card-excerpt" th:text="${#strings.abbreviate(post.content, 150)}"></p>
+                                <a th:href="@{/blog/{slug}(slug=${post.slug})}" class="button primary">Weiterlesen</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

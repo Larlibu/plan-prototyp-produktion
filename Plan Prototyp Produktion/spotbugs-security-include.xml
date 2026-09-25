@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <!--
+        This file can be used to include specific security-related FindBugs detectors.
+        For a full list of detectors and their categories, refer to the SpotBugs documentation.
+        Example:
+        <Match>
+            <Bug pattern="HARD_CODE_PASSWORD" />
+        </Match>
+    -->
+    <!-- No specific inclusions for now, relying on default security checks. -->
+</FindBugsFilter>

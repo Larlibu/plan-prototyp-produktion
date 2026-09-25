@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Warenkorb - Plan Prototyp Produktion</title>
+</head>
+<body>
+    <div th:replace="~{layout/base :: layout(~{::title}, ~{::main})}">
+        <main>
+            <section class="blog-list">
+                <div class="container">
+                    <h1>Warenkorb</h1>
+
+                    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+                    <div th:if="${cart == null or cart.items.isEmpty()}" class="empty-state">
+                        <p>Dein Warenkorb ist leer.</p>
+                        <a href="/shop" class="button primary">Weiter einkaufen</a>
+                    </div>
+
+                    <div th:unless="${cart == null or cart.items.isEmpty()}">
+                        <table class="cart-table">
+                            <thead>
+                                <tr>
+                                    <th>Bild</th>
+                                    <th>Produkt</th>
+                                    <th>Einzelpreis</th>
+                                    <th>Menge</th>
+                                    <th>Gesamt</th>
+                                    <th>Aktion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item : ${cart.items}">
+                                    <td>
+                                        <img th:if="${item.productImage}"
+                                             th:src="@{'data:image/jpeg;base64,' + ${item.productImage}}"
+                                             th:alt="${item.productName}"
+                                             class="cart-item-image">
+                                    </td>
+                                    <td th:text="${item.productName}">Produktname</td>
+                                    <td th:text="${#numbers.formatDecimal(item.price, 1, 2)} + ' €'">0,00 €</td>
+                                    <td>
+                                        <form th:action="@{/shop/cart/update}" method="post" style="display:inline;">
+                                            <input type="hidden" name="productId" th:value="${item.productId}">
+                                            <input type="number" name="quantity" class="quantity-input"
+                                                   th:value="${item.quantity}" min="0">
+                                            <button type="submit" class="button small secondary">Aktualisieren</button>
+                                        </form>
+                                    </td>
+                                    <td th:text="${#numbers.formatDecimal(item.price * item.quantity, 1, 2)} + ' €'">0,00 €</td>
+                                    <td>
+                                        <form th:action="@{/shop/cart/remove}" method="post">
+                                            <input type="hidden" name="productId" th:value="${item.productId}">
+                                            <button type="submit" class="button small danger">Entfernen</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="cart-summary">
+                            <p>Gesamtbetrag: <span th:text="${#numbers.formatDecimal(cart.totalPrice, 1, 2)} + ' €'">0,00 €</span></p>
+                            <form th:action="@{/shop/cart/clear}" method="post" style="display:inline;">
+                                <button type="submit" class="button danger">Warenkorb leeren</button>
+                            </form>
+                            <a href="/shop" class="button secondary">Weiter einkaufen</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

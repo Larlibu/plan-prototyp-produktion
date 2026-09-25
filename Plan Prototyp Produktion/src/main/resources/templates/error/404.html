@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>404 - Seite nicht gefunden</title>
+</head>
+<body>
+    <div th:replace="~{layout/base :: layout(~{::title}, ~{::main})}">
+        <main>
+            <section class="error-page">
+                <div class="container">
+                    <h1>404 - Seite nicht gefunden</h1>
+                    <p>Entschuldigung, die angeforderte Seite konnte nicht gefunden werden.</p>
+                    <a href="/" class="button primary">Zur Startseite</a>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

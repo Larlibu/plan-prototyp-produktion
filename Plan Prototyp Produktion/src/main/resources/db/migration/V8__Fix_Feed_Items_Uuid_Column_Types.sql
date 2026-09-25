@@ -1,0 +1,3 @@
+ALTER TABLE feed_items
+    MODIFY COLUMN id           VARCHAR(36) NOT NULL,
+    MODIFY COLUMN blog_post_id VARCHAR(36) NOT NULL;

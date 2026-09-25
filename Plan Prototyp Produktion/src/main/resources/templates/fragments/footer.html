@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Footer Fragment</title>
+</head>
+<body>
+    <footer th:fragment="footer">
+        <div class="container">
+            <p>&copy; <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}"></span> Plan Prototyp Produktion. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

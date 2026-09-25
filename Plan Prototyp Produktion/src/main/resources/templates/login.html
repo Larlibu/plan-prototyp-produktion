@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Plan Prototyp Produktion</title>
+</head>
+<body th:replace="~{layout/base :: layout(~{::title}, ~{::loginMainContent})}">
+    <main th:fragment="loginMainContent">
+        <section class="login-form">
+            <div class="container">
+                <h1>Login</h1>
+                <form th:action="@{/login}" method="post" class="form-card">
+                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+                    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+
+                    <div class="form-group">
+                        <label for="username">Benutzername:</label>
+                        <input type="text" id="username" name="username" placeholder="Benutzername" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Passwort:</label>
+                        <input type="password" id="password" name="password" placeholder="Passwort" required>
+                    </div>
+                    <button type="submit" class="button primary">Anmelden</button>
+                </form>
+                <div class="auth-divider">
+                    <span>Noch kein Konto?</span>
+                </div>
+                <a href="/register" class="button secondary full-width">Jetzt kostenlos registrieren</a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

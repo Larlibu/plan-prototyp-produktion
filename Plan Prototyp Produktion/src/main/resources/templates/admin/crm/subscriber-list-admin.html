@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>CRM Admin - Newsletter Abonnenten</title>
+</head>
+<body>
+    <div th:replace="~{layout/base :: layout(~{::title}, ~{::main})}">
+        <main>
+            <section class="admin-content">
+                <div class="container">
+                    <h1>Newsletter Abonnenten Verwaltung</h1>
+
+                    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <a href="/admin/newsletter/compose" class="button primary">Newsletter verfassen</a>
+                    </div>
+
+                    <div th:if="${subscribers.isEmpty()}" class="empty-state">
+                        <p>Es sind noch keine Abonnenten vorhanden.</p>
+                    </div>
+                    <table th:unless="${subscribers.isEmpty()}" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>E-Mail</th>
+                                <th>Status</th>
+                                <th>Abonniert am</th>
+                                <th>Aktionen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="subscriber : ${subscribers}">
+                                <td th:text="${subscriber.email}"></td>
+                                <td>
+                                    <span th:if="${subscriber.active}" class="status-published">Aktiv</span>
+                                    <span th:unless="${subscriber.active}" class="status-unpublished">Inaktiv</span>
+                                </td>
+                                <td th:text="${#temporals.format(subscriber.createdAt, 'dd.MM.yyyy HH:mm')}"></td>
+                                <td class="actions">
+                                    <form th:action="@{/admin/newsletter/delete/{id}(id=${subscriber.id})}" method="post" style="display:inline;">
+                                        <button type="submit" class="button danger small" onclick="return confirm('Sind Sie sicher, dass Sie diesen Abonnenten löschen möchten?');">Löschen</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

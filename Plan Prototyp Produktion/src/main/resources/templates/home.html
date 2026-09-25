@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Willkommen - Plan Prototyp Produktion</title>
+</head>
+<body>
+    <div th:replace="~{layout/base :: layout(~{::title}, ~{::main})}">
+        <main>
+            <section class="hero">
+                <div class="container">
+                    <!-- Persönliche Begrüßung, wenn der Benutzer eingeloggt ist -->
+                    <div sec:authorize="isAuthenticated()" th:if="${username}">
+                        <h2 th:text="'Willkommen, ' + ${username} + '!'">Willkommen!</h2>
+                        <!-- Newsletter-Status anzeigen -->
+                        <div th:if="${isNewsletterSubscribed != null}">
+                            <p th:if="${isNewsletterSubscribed}">Sie sind für unseren Newsletter angemeldet.</p>
+                            <p th:unless="${isNewsletterSubscribed}">Sie sind nicht für unseren Newsletter angemeldet. <a th:href="@{/newsletter/subscribe-user}" class="button-link">Jetzt anmelden</a></p>
+                        </div>
+                    </div>
+                    <h1>Natürlich gut essen – jeden Tag</h1>
+                    <p>Wir glauben daran, dass gesunde Ernährung einfach, lecker und für alle erreichbar sein kann. Entdecken Sie sorgfältig ausgewählte Lebensmittel, fundiertes Ernährungswissen und eine Gemeinschaft, die Genuss und Gesundheit zusammenbringt.</p>
+                    <div class="hero-buttons">
+                        <a href="/shop" class="button primary">Zum Shop</a>
+                        <a href="/blog" class="button secondary">Ernährungstipps lesen</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="features">
+                <div class="container">
+                    <h2>Was wir für Sie tun</h2>
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <h3>Kuratierte Produkte</h3>
+                            <p>Jedes Produkt in unserem Sortiment wird sorgfältig geprüft – nach Herkunft, Qualität und Nährstoffdichte. Keine Kompromisse, nur das Beste aus der Natur.</p>
+                            <a href="/shop" class="button tertiary">Sortiment entdecken</a>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Ernährungswissen</h3>
+                            <p>In unserem Blog teilen wir fundierte Artikel zu gesunder Ernährung, saisonalen Zutaten und praktischen Rezeptideen – verständlich aufbereitet für den Alltag.</p>
+                            <a href="/blog" class="button tertiary">Zum Blog</a>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Immer informiert</h3>
+                            <p>Abonnieren Sie unseren Newsletter und erhalten Sie Neuigkeiten zu frischen Produkten, saisonalen Angeboten und exklusiven Ernährungstipps direkt in Ihr Postfach.</p>
+                            <a href="/newsletter" class="button tertiary">Newsletter abonnieren</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="about">
+                <div class="container">
+                    <div class="about-grid">
+                        <div class="about-text">
+                            <h2>Über uns</h2>
+                            <p>Wir sind ein kleines Team mit großer Leidenschaft für natürliche Lebensmittel. Was als persönliche Suche nach bewusster Ernährung begann, ist heute ein wachsendes Angebot für Menschen, die wissen möchten, was auf ihrem Teller landet.</p>
+                            <p>Unsere Produkte beziehen wir bevorzugt von regionalen und ökologisch wirtschaftenden Betrieben. Wir pflegen direkte Partnerschaften mit Erzeugern, die ihre Arbeit mit Sorgfalt und Respekt vor der Natur betreiben – weil wir überzeugt sind, dass gute Lebensmittel mit verantwortungsvollem Anbau beginnen.</p>
+                            <p>Gesund essen bedeutet für uns nicht Verzicht, sondern Entscheidung. Die Entscheidung für Qualität, für Genuss und für ein Leben, das man bewusst gestaltet.</p>
+                        </div>
+                        <div class="about-values">
+                            <div class="value-item">
+                                <strong>Transparenz</strong>
+                                <p>Wir kommunizieren offen über Herkunft, Inhaltsstoffe und unsere Auswahlkriterien.</p>
+                            </div>
+                            <div class="value-item">
+                                <strong>Regionalität</strong>
+                                <p>Kurze Lieferwege schonen die Umwelt und sichern Frische – beides liegt uns am Herzen.</p>
+                            </div>
+                            <div class="value-item">
+                                <strong>Nachhaltigkeit</strong>
+                                <p>Vom Erzeuger bis zur Verpackung denken wir in Kreisläufen statt in Einwegprozessen.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

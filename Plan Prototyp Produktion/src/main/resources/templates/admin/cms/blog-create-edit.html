@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${isEdit} ? 'Artikel bearbeiten' : 'Neuen Artikel erstellen'"></title>
+</head>
+<body>
+    <div th:replace="~{layout/base :: layout(~{::title}, ~{::main})}">
+        <main>
+            <section class="admin-form">
+                <div class="container">
+                    <h1 th:text="${isEdit} ? 'Artikel bearbeiten' : 'Neuen Artikel erstellen'"></h1>
+
+                    <form th:action="${isEdit} ? @{/admin/blog/edit/{id}(id=${blogPost.id})} : @{/admin/blog/create}"
+                          th:object="${blogPost}"
+                          method="post" enctype="multipart/form-data" class="form-card">
+
+                        <input type="hidden" th:if="${isEdit}" th:field="*{id}">
+
+                        <div class="form-group">
+                            <label for="title">Titel:</label>
+                            <input type="text" id="title" th:field="*{title}" th:errorclass="is-invalid">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="slug">Slug (URL):</label>
+                            <input type="text" id="slug" th:field="*{slug}" th:errorclass="is-invalid" placeholder="z.B. mein-erster-artikel">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('slug')}" th:errors="*{slug}"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="content">Inhalt:</label>
+                            <textarea id="content" th:field="*{content}" th:errorclass="is-invalid" rows="12"></textarea>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
+                        </div>
+
+                        <div class="form-group" th:if="${isEdit}">
+                            <label>
+                                <input type="checkbox" th:field="*{published}"> Veröffentlicht
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="imageFile">Bild:</label>
+                            <input type="file" id="imageFile" name="imageFile" accept="image/*">
+                            <div th:if="${isEdit and blogPost.existingImage != null}" class="current-image">
+                                <p>Aktuelles Bild:</p>
+                                <img th:src="@{'data:image/jpeg;base64,' + ${blogPost.existingImage}}" alt="Aktuelles Bild" style="max-width: 200px; height: auto;">
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="button primary">Speichern</button>
+                            <a href="/admin/blog" class="button secondary">Abbrechen</a>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
