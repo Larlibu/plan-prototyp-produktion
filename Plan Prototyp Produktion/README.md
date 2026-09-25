@@ -2,6 +2,8 @@
 
 ## Webplattform für CMS, Mini-Shop, CRM und Administration
 
+*Stand: 2026-09-25*
+
 Dies ist eine integrierte Webplattform, die als serverseitiger Spring-Boot-Monolith entwickelt wurde. Sie umfasst ein Content-Management-System (CMS) für Blog und News, einen Mini-Shop mit Warenkorbfunktion, ein Customer Relationship Management (CRM) / Newsletter-System sowie einen Administrationsbereich.
 
 ---
