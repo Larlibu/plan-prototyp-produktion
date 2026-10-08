@@ -134,8 +134,8 @@ Die Datenbankschemata werden automatisch von Flyway verwaltet.
 
 1.  **Projekt klonen**:
     ```bash
-    git clone [URL_DES_REPOS]
-    cd "Plan Prototyp Produktion"
+    git clone https://github.com/Larlibu/plan-prototyp-produktion.git
+    cd plan-prototyp-produktion
     ```
 
 2.  **Abhängigkeiten installieren**:
